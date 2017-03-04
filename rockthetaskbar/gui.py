@@ -1,5 +1,6 @@
 
 import sys
+import copy
 
 
 from PyQt5.QtGui import QIcon, QPixmap
@@ -18,6 +19,7 @@ class About(QDialog):
         layout.addWidget(QLabel('RockTheTaskBar - "hello world" for a task bar MacOS/Windows app'))
         layout.addWidget(QLabel('Author: %s' % rockthetaskbar.__author__))
         layout.addWidget(QLabel('Source: %s' % rockthetaskbar.__url__))
+        self.show()
 
 
 class PropMTimeSystemTray(QSystemTrayIcon):
@@ -37,15 +39,15 @@ class PropMTimeSystemTray(QSystemTrayIcon):
         self.cpu_monitor.start()
 
     def cpu(self):
-        cpu_monitor_box = rockthetaskbar.cpumonitor.CPUMonitorDialog(self.cpu_monitor)
-        cpu_monitor_box.exec()
+        rockthetaskbar.cpumonitor.cpu_graph(copy.deepcopy(self.cpu_monitor.performance_histogram))
 
     def about(self):
         about_box = About()
-        about_box.exec()
+        about_box.exec_()
 
     def exit(self):
         self.cpu_monitor.request_exit()
+        self.cpu_monitor.join()
         QApplication.exit()  # todo: what should this parameter be?
 
 
