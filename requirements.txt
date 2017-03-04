@@ -1,3 +1,4 @@
 pyqt5
-appdirs
+psutil
+matplotlib
 osnap

@@ -1,10 +1,12 @@
 
 import sys
 
+
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import QGridLayout, QLabel, QSystemTrayIcon, QMenu, QDialog, QApplication
 
 import rockthetaskbar
+import rockthetaskbar.cpumonitor
 
 
 class About(QDialog):
@@ -13,6 +15,8 @@ class About(QDialog):
         self.setWindowTitle(rockthetaskbar.__application_name__)
         layout = QGridLayout(self)
         self.setLayout(layout)
+        layout.addWidget(QLabel('RockTheTaskBar - "hello world" for a task bar MacOS/Windows app'))
+        layout.addWidget(QLabel('Author: %s' % rockthetaskbar.__author__))
         layout.addWidget(QLabel('Source: %s' % rockthetaskbar.__url__))
 
 
@@ -24,19 +28,24 @@ class PropMTimeSystemTray(QSystemTrayIcon):
         super().__init__(icon)
 
         menu = QMenu()
-        menu.addAction("Info").triggered.connect(self.paths)
+        menu.addAction("CPU").triggered.connect(self.cpu)
         menu.addAction("About").triggered.connect(self.about)
         menu.addAction("Exit").triggered.connect(self.exit)
         self.setContextMenu(menu)
 
-    def paths(self):
-        pass
+        self.cpu_monitor = rockthetaskbar.cpumonitor.CPUMonitor()
+        self.cpu_monitor.start()
+
+    def cpu(self):
+        cpu_monitor_box = rockthetaskbar.cpumonitor.CPUMonitorDialog(self.cpu_monitor)
+        cpu_monitor_box.exec()
 
     def about(self):
         about_box = About()
         about_box.exec()
 
     def exit(self):
+        self.cpu_monitor.request_exit()
         QApplication.exit()  # todo: what should this parameter be?
 
 
