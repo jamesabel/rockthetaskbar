@@ -9,6 +9,32 @@ from PyQt5.QtWidgets import QGridLayout, QLabel, QSystemTrayIcon, QMenu, QDialog
 import rockthetaskbar
 import rockthetaskbar.cpumonitor
 
+# don't use matplotlib.pyplot (you'll end up with a windowing problem)
+# see: http://stackoverflow.com/questions/29992771/combining-pyqt-and-matplotlib
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
+
+
+class CPUDialog(QDialog):
+    def __init__(self, cpu_histogram):
+        super().__init__()
+
+        # set up the graphical elements
+        layout = QGridLayout(self)
+        self.setLayout(layout)
+        fig = Figure()
+        layout.addWidget(FigureCanvas(fig))
+
+        # do the plotting
+        ax = fig.add_subplot(1, 1, 1)  # 1x1 grid, first subplot
+        ax.set_title('CPU Usage Histogram')
+        ax.set_ylabel('Count')
+        ax.set_xlabel('CPU %')
+        xs = range(0, 101)
+        ax.plot(xs, [cpu_histogram[x] for x in xs])
+
+        self.show()
+
 
 class About(QDialog):
     def __init__(self):
@@ -39,7 +65,8 @@ class PropMTimeSystemTray(QSystemTrayIcon):
         self.cpu_monitor.start()
 
     def cpu(self):
-        rockthetaskbar.cpumonitor.cpu_graph(copy.deepcopy(self.cpu_monitor.performance_histogram))
+        cpu_dialog = CPUDialog(copy.deepcopy(self.cpu_monitor.get_performance_histogram()))
+        cpu_dialog.exec_()
 
     def about(self):
         about_box = About()
