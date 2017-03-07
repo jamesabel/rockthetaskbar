@@ -136,3 +136,6 @@ crashlytics-build.properties
 fabric.properties
 
 repo_ignore/
+logs/
+temp/
+*.dmg
