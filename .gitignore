@@ -135,7 +135,13 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+# JCA
 repo_ignore/
 logs/
 temp/
 *.dmg
+msvc/
+.idea
+cache
+installers
+osnapy
