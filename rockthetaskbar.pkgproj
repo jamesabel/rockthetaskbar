@@ -447,7 +447,7 @@
 				<key>CONCLUSION_ACTION</key>
 				<integer>0</integer>
 				<key>IDENTIFIER</key>
-				<string>com.abel.pkg.testexample</string>
+				<string>co.abel.rockthetaskbar</string>
 				<key>NAME</key>
 				<string>rockthetaskbar</string>
 				<key>OVERWRITE_PERMISSIONS</key>
@@ -456,7 +456,7 @@
 				<string>0.0</string>
 			</dict>
 			<key>UUID</key>
-			<string>EE332AF5-06F7-416D-AC06-CDD2BD543710</string>
+			<string>05914837-393a-4c93-9f84-b53b50ec866c</string>
 		</dict>
 	</array>
 	<key>PROJECT</key>
