@@ -10,7 +10,7 @@ from rockthetaskbar.cpudialog import CPUDialog
 from rockthetaskbar.about import AboutDialog
 
 
-class PropMTimeSystemTray(QSystemTrayIcon):
+class RockTheTaskBarSystemTray(QSystemTrayIcon):
     def __init__(self):
 
         from rockthetaskbar import icons
@@ -37,12 +37,12 @@ class PropMTimeSystemTray(QSystemTrayIcon):
     def exit(self):
         self.cpu_monitor.request_exit()
         self.cpu_monitor.join()
-        QApplication.exit()  # todo: what should this parameter be?
+        QApplication.exit()
 
 
 def main():
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)  # so popup dialogs don't close the system tray icon
-    system_tray = PropMTimeSystemTray()
+    system_tray = RockTheTaskBarSystemTray()
     system_tray.show()
     app.exec_()
